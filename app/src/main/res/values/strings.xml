@@ -14,10 +14,20 @@
         completions."
     </string>
     <string name="action_log_in">Login</string>
-    <string name="hnt_password">Password</string>
+    <string name="hint_password">Password</string>
     <string name="logo">Logo</string>
     <string name="catch_phrase">The people we know, the places we go.</string>
     <string name="login_or">-or-</string>
     <string name="login_register">Not yet a user? Register here</string>
     <string name="forgot_password">Forgot Password</string>
+
+    <string name="hint_email">Email</string>
+    <string name="hint_name">Fullname</string>
+    <string name="btn_login">LOGIN</string>
+    <string name="btn_register">REGISTER</string>
+    <string name="btn_link_to_register">Not a member? Sign up now.</string>
+    <string name="btn_link_to_login">Already registred! Login Me.</string>
+    <string name="welcome">Welcome</string>
+    <string name="btn_logout">LOGOUT</string>
+    <string name="name">Fullname</string>
 </resources>
