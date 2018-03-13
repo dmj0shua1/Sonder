@@ -126,7 +126,7 @@ public class LoginActivity extends Activity {
                 try {
                     JSONObject jObj = new JSONObject(response);
                     String error = jObj.getString("login");
-                    Log.e(TAG,"Error value: "+error);
+                    Log.e(TAG,"Login status: "+error);
                     // Check for error node in json
                     if (error.contentEquals("Success")) {
 
@@ -141,7 +141,7 @@ public class LoginActivity extends Activity {
                         String email = jObj.getString("email");
 
                         // Inserting row in users table
-                        db.addUser(name, email, uid);
+                        db.addUser(email, uid);
 
                         // Launch main activity
                         Intent intent = new Intent(LoginActivity.this,

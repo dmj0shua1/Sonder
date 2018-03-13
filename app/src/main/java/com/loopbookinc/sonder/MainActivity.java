@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
-    private TextView txtName;
     private TextView txtEmail;
     private Button btnLogout;
 
@@ -27,9 +26,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        txtName = (TextView) findViewById(R.id.name);
-        txtEmail = (TextView) findViewById(R.id.email);
-        btnLogout = (Button) findViewById(R.id.btnLogout);
+        txtEmail = findViewById(R.id.email);
+        btnLogout = findViewById(R.id.btnLogout);
 
         // SqLite database handler
         db = new SQLiteHandler(getApplicationContext());
@@ -44,11 +42,9 @@ public class MainActivity extends Activity {
         // Fetching user details from sqlite
         HashMap<String, String> user = db.getUserDetails();
 
-        String name = user.get("name");
         String email = user.get("email");
 
         // Displaying the user details on the screen
-        txtName.setText(name);
         txtEmail.setText(email);
 
         // Logout button click event
