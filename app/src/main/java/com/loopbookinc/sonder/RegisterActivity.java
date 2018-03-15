@@ -31,7 +31,8 @@ public class RegisterActivity extends Activity {
     private Button btnRegister;
     private Button btnLinkToLogin;
     private EditText inputEmail;
-    private EditText inputPassword;
+    private EditText inputPassword1;
+    private EditText inputPassword2;
     private ProgressDialog pDialog;
     private SessionManager session;
     private SQLiteHandler db;
@@ -42,7 +43,8 @@ public class RegisterActivity extends Activity {
         setContentView(R.layout.activity_register);
 
         inputEmail = findViewById(R.id.email);
-        inputPassword = findViewById(R.id.password);
+        inputPassword1 = findViewById(R.id.password1);
+        inputPassword2 = findViewById(R.id.password2);
         btnRegister = findViewById(R.id.btnRegister);
         btnLinkToLogin = findViewById(R.id.btnLinkToLoginScreen);
 
@@ -69,10 +71,17 @@ public class RegisterActivity extends Activity {
             public void onClick(View view) {
 
                 String email = inputEmail.getText().toString().trim();
-                String password = inputPassword.getText().toString().trim();
-
-                if (!email.isEmpty() && !password.isEmpty()) {
-                    registerUser(email, password);
+                String password1 = inputPassword1.getText().toString().trim();
+                String password2 = inputPassword2.getText().toString().trim();
+                Log.d(TAG,"PW1: "+password1+",PW2: "+password2);
+                if (!email.isEmpty() && !password1.isEmpty() && !password2.isEmpty()) {
+                    if (password1.contentEquals(password2)){
+                        registerUser(email, password1);
+                    }else{
+                        Toast.makeText(getApplicationContext(),
+                                "Password is unmatched", Toast.LENGTH_LONG)
+                                .show();
+                    }
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "Please enter your details!", Toast.LENGTH_LONG)
@@ -121,11 +130,11 @@ public class RegisterActivity extends Activity {
                     if (error.contentEquals("Sign up successful")) {
                         // User successfully stored in MySQL
                         // Now store the user in sqlite
-                        String uid = jObj.getString("user_id");
+                      //  String uid = jObj.getString("user_id");
                         String email = jObj.getString("email");
 
                         // Inserting row in users table
-                        db.addUser(email, uid);
+                        db.addUser(email,"");
 
                         Toast.makeText(getApplicationContext(), "User successfully registered. Try login now!", Toast.LENGTH_LONG).show();
 
