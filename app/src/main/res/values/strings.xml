@@ -32,4 +32,6 @@
     <string name="name">Fullname</string>
     <string name="hint_password2">Confirm password</string>
     <string name="hint_password0">Password</string>
+    <string name="vcode">Verification Code</string>
+    <string name="verify" >Verify</string>
 </resources>

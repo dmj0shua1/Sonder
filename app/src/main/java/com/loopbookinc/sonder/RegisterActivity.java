@@ -77,6 +77,9 @@ public class RegisterActivity extends Activity {
                 if (!email.isEmpty() && !password1.isEmpty() && !password2.isEmpty()) {
                     if (password1.contentEquals(password2)){
                         registerUser(email, password1);
+
+                     /*   Intent intent = new Intent(getBaseContext(), VerifyRegistration.class);
+                        intent.putExtra("vCode",)*/
                     }else{
                         Toast.makeText(getApplicationContext(),
                                 "Password is unmatched", Toast.LENGTH_LONG)
@@ -131,17 +134,19 @@ public class RegisterActivity extends Activity {
                         // User successfully stored in MySQL
                         // Now store the user in sqlite
                       //  String uid = jObj.getString("user_id");
-                        String email = jObj.getString("email");
+                        String vCode = jObj.getString("signup_code");
 
                         // Inserting row in users table
-                        db.addUser(email,"");
+                       // db.addUser(email,"");
 
-                        Toast.makeText(getApplicationContext(), "User successfully registered. Try login now!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "verification code sent to "+email, Toast.LENGTH_LONG).show();
 
                         // Launch login activity
                         Intent intent = new Intent(
                                 RegisterActivity.this,
-                                LoginActivity.class);
+                                VerifyRegistration.class);
+                        intent.putExtra("vCode",vCode);
+                        intent.putExtra("email",email);
                         startActivity(intent);
                         finish();
                     } else {
