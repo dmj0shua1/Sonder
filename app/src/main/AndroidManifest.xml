@@ -36,7 +36,9 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop" />
-        <activity android:name=".VerifyRegistration"></activity>
+        <activity android:name=".VerifyRegistration" />
+        <activity android:name=".forgot_pw" />
+        <activity android:name=".Confirm_reset"></activity>
     </application>
 
 </manifest>

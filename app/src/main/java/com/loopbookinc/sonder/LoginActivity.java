@@ -33,6 +33,7 @@ public class LoginActivity extends Activity {
     private static final String TAG = RegisterActivity.class.getSimpleName();
     private Button btnLogin;
     private Button btnLinkToRegister;
+    private Button btnForgotPassword;
     private EditText inputEmail;
     private EditText inputPassword;
     private ProgressDialog pDialog;
@@ -48,6 +49,7 @@ public class LoginActivity extends Activity {
         inputPassword = findViewById(R.id.password);
         btnLogin = findViewById(R.id.btnLogin);
         btnLinkToRegister = findViewById(R.id.btn_register);
+        btnForgotPassword = findViewById(R.id.btn_forgot_password);
 
         // Progress dialog
         pDialog = new ProgressDialog(this);
@@ -90,6 +92,18 @@ public class LoginActivity extends Activity {
 
         });
 
+        // Forgot password
+        btnForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),
+                        forgot_pw.class);
+                startActivity(intent);
+
+
+            }
+        });
+
         // Link to Register Screen
         btnLinkToRegister.setOnClickListener(new View.OnClickListener() {
 
@@ -97,7 +111,7 @@ public class LoginActivity extends Activity {
                 Intent i = new Intent(getApplicationContext(),
                         RegisterActivity.class);
                 startActivity(i);
-                finish();
+
             }
         });
 
@@ -147,7 +161,7 @@ public class LoginActivity extends Activity {
                         Intent intent = new Intent(LoginActivity.this,
                                 MainActivity.class);
                         startActivity(intent);
-                        finish();
+
                     } else {
                         Log.e(TAG,"Error value: "+error);
                         // Error in login. Get the error message

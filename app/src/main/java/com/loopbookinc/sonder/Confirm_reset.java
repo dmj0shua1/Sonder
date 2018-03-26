@@ -16,7 +16,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.loopbookinc.sonder.app.AppConfig;
 import com.loopbookinc.sonder.app.AppController;
-import com.loopbookinc.sonder.helper.SQLiteHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,81 +23,98 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class VerifyRegistration extends AppCompatActivity {
-    private static final String TAG = VerifyRegistration.class.getSimpleName();
+public class Confirm_reset extends AppCompatActivity {
+    private static final String TAG = forgot_pw.class.getSimpleName();
     private ProgressDialog pDialog;
-    private SQLiteHandler db;
 
-    private EditText edtVCode;
-    private Button btnVerify;
+    private EditText edtResetCode;
+    private EditText edtResetPwEmail;
+    private EditText edtNewPassword1;
+    private EditText edtNewPassword2;
+    private Button btnReset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_verify_registration);
+        setContentView(R.layout.activity_confirm_reset);
 
-        btnVerify = (findViewById(R.id.btnVerify));
-        edtVCode = (findViewById(R.id.edtVCode));
+        edtResetCode = findViewById(R.id.edtResetCode2);
+        edtResetPwEmail = findViewById(R.id.edtResetPwEmail);
+        edtNewPassword1 = findViewById(R.id.edtNewPassword);
+        edtNewPassword2 = findViewById(R.id.edtNewPassword2);
+        btnReset = findViewById(R.id.btnReset);
 
         // Progress dialog
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
-        btnVerify.setOnClickListener(new View.OnClickListener() {
+        Intent intent = getIntent();
+
+        if (intent.hasExtra("email")){
+            edtResetPwEmail.setText(intent.getStringExtra("email"));
+        }
+
+        btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String input_vcode = edtVCode.getText().toString().trim();
-                String vcode = getIntent().getStringExtra("vCode");
-                String email = getIntent().getStringExtra("email");
+                if (!edtResetCode.getText().toString().isEmpty() &&
+                        !edtResetPwEmail.getText().toString().isEmpty() &&
+                        !edtNewPassword1.getText().toString().isEmpty() &&
+                        !edtNewPassword2.getText().toString().isEmpty()){
 
-                if (vcode.contentEquals(input_vcode)){
-                    registerUser(email,vcode,"1");
-                }else{
-                    String errorMsg = "Verification code invalid";
-                    Toast.makeText(getApplicationContext(),
-                            errorMsg, Toast.LENGTH_LONG).show();
-                }
+                        if (edtNewPassword1.getText().toString().contentEquals(edtNewPassword2.getText().toString())){
+                            String code = edtResetCode.getText().toString().trim();
+                            String password = edtNewPassword1.getText().toString().trim();
+                            String change_pass = "1";
+                            String email = edtResetPwEmail.getText().toString().trim();
 
-
+                            resetPassword(code,email,password,change_pass);
+                        }else{
+                            Toast.makeText(getApplicationContext(), "Password not matched", Toast.LENGTH_SHORT).show();
+                        }
+                    }
             }
         });
+
     }
 
-    private void registerUser(final String email,
-                              final String signupCode,final String confirmSignup) {
-        // Tag used to cancel the request
-        String tag_string_req = "req_verify";
 
-        pDialog.setMessage("Verifying ...");
+    private void resetPassword(final String code,final String email,final String password,final String change_pass) {
+        // Tag used to cancel the request
+        String tag_string_req = "req_reset";
+
+        pDialog.setMessage("Requesting code ...");
         showDialog();
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
-                AppConfig.URL_REGISTER, new Response.Listener<String>() {
+                AppConfig.URL_RESET_PW, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
-                Log.d(TAG, "Verification Response: " + response.toString());
+                Log.d(TAG,code+","+email+","+password+","+change_pass);
+                Log.d(TAG, "Request Response: " + response.toString());
                 hideDialog();
 
                 try {
                     JSONObject jObj = new JSONObject(response);
                     String error = jObj.getString("reply");
-                    Log.e(TAG,"Verification status: "+error);
+                    Log.e(TAG,"Request status: "+error);
                     if (error.contentEquals("success")) {
                         // User successfully stored in MySQL
                         // Now store the user in sqlite
-                          String uid = jObj.getString("user_id");
+                        //  String uid = jObj.getString("user_id");
 
 
                         // Inserting row in users table
-                    //    db.addUser(email,"");
+                        //    db.addUser(email,"");
 
-                        Toast.makeText(getApplicationContext(), "Verification successful", Toast.LENGTH_LONG).show();
+                          Toast.makeText(getApplicationContext(), "Password reset successful!", Toast.LENGTH_LONG).show();
 
                         // Launch login activity
                         Intent intent = new Intent(
-                                VerifyRegistration.this,
+                                Confirm_reset.this,
                                 LoginActivity.class);
+
                         startActivity(intent);
                         finish();
                     } else {
@@ -118,7 +134,7 @@ public class VerifyRegistration extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Verification Error: " + error.getMessage());
+                Log.e(TAG, "Request Error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_LONG).show();
                 hideDialog();
@@ -129,9 +145,10 @@ public class VerifyRegistration extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 // Posting params to register url
                 Map<String, String> params = new HashMap<String, String>();
+                params.put("code", code);
                 params.put("email", email);
-                params.put("signup_code", signupCode);
-                params.put("confirm_signup",confirmSignup);
+                params.put("password", password);
+                params.put("change_pass", change_pass);
 
                 return params;
             }
@@ -150,8 +167,4 @@ public class VerifyRegistration extends AppCompatActivity {
         if (pDialog.isShowing())
             pDialog.dismiss();
     }
-
-
-
-
 }

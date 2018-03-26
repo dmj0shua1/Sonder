@@ -14,5 +14,7 @@ public class AppConfig {
     // Server forgot password url
     public static String URL_FORGOT_PW = "http://ec2-34-216-225-113.us-west-2.compute.amazonaws.com/veeds/request_reset_code.php";
 
+    // Server confirm reset url
+    public static String URL_RESET_PW = "http://ec2-34-216-225-113.us-west-2.compute.amazonaws.com/veeds/data_proc.php";
 
 }

@@ -2,6 +2,7 @@ package com.loopbookinc.sonder;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +17,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.loopbookinc.sonder.app.AppConfig;
 import com.loopbookinc.sonder.app.AppController;
-import com.loopbookinc.sonder.helper.SQLiteHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,85 +24,97 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class VerifyRegistration extends AppCompatActivity {
-    private static final String TAG = VerifyRegistration.class.getSimpleName();
+public class forgot_pw extends AppCompatActivity {
+    private static final String TAG = forgot_pw.class.getSimpleName();
     private ProgressDialog pDialog;
-    private SQLiteHandler db;
 
-    private EditText edtVCode;
-    private Button btnVerify;
+    private EditText edtResetPwEmail;
+    private Button btnReset;
+    private Button btnAlreadyReset;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_verify_registration);
+        setContentView(R.layout.activity_forgot_pw);
 
-        btnVerify = (findViewById(R.id.btnVerify));
-        edtVCode = (findViewById(R.id.edtVCode));
+        edtResetPwEmail = findViewById(R.id.edtResetPwEmail);
+        btnReset = findViewById(R.id.btnResetCode);
+        btnAlreadyReset = findViewById(R.id.btnAlreadyReset);
+        btnAlreadyReset.setPaintFlags(btnAlreadyReset.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         // Progress dialog
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
 
-        btnVerify.setOnClickListener(new View.OnClickListener() {
+        btnReset.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                String input_vcode = edtVCode.getText().toString().trim();
-                String vcode = getIntent().getStringExtra("vCode");
-                String email = getIntent().getStringExtra("email");
+                String email = edtResetPwEmail.getText().toString().trim();
+                String forget = "1";
+                if (!edtResetPwEmail.toString().isEmpty()){
 
-                if (vcode.contentEquals(input_vcode)){
-                    registerUser(email,vcode,"1");
+                    resetPassword(email,forget);
                 }else{
-                    String errorMsg = "Verification code invalid";
-                    Toast.makeText(getApplicationContext(),
-                            errorMsg, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Please enter email", Toast.LENGTH_LONG).show();
                 }
+            }
+        });
 
+        btnAlreadyReset.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                // Launch login activity
+                Intent intent = new Intent(
+                        forgot_pw.this,
+                        Confirm_reset.class);
+                startActivity(intent);
 
             }
         });
     }
 
-    private void registerUser(final String email,
-                              final String signupCode,final String confirmSignup) {
-        // Tag used to cancel the request
-        String tag_string_req = "req_verify";
 
-        pDialog.setMessage("Verifying ...");
+    private void resetPassword(final String email,final String forget) {
+        // Tag used to cancel the request
+        String tag_string_req = "req_reset";
+
+        pDialog.setMessage("Requesting code ...");
         showDialog();
 
         StringRequest strReq = new StringRequest(Request.Method.POST,
-                AppConfig.URL_REGISTER, new Response.Listener<String>() {
+                AppConfig.URL_FORGOT_PW, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
-                Log.d(TAG, "Verification Response: " + response.toString());
+                Log.d(TAG, "Request Response: " + response.toString());
                 hideDialog();
 
                 try {
                     JSONObject jObj = new JSONObject(response);
                     String error = jObj.getString("reply");
-                    Log.e(TAG,"Verification status: "+error);
-                    if (error.contentEquals("success")) {
+                    Log.e(TAG,"Request status: "+error);
+                    if (error.contentEquals("1") || error.contentEquals("5")) {
                         // User successfully stored in MySQL
                         // Now store the user in sqlite
-                          String uid = jObj.getString("user_id");
-
+                      //  String uid = jObj.getString("user_id");
+                        if (error.contentEquals("5")) Toast.makeText(getApplicationContext(), "Reset code already exist", Toast.LENGTH_LONG).show();
 
                         // Inserting row in users table
-                    //    db.addUser(email,"");
+                        //    db.addUser(email,"");
 
-                        Toast.makeText(getApplicationContext(), "Verification successful", Toast.LENGTH_LONG).show();
+                      //  Toast.makeText(getApplicationContext(), "Reset code successful", Toast.LENGTH_LONG).show();
 
                         // Launch login activity
                         Intent intent = new Intent(
-                                VerifyRegistration.this,
-                                LoginActivity.class);
+                                forgot_pw.this,
+                                Confirm_reset.class);
+                        intent.putExtra("email",email);
                         startActivity(intent);
                         finish();
-                    } else {
+                    } else if (error.contentEquals("2")){
 
+                        Toast.makeText(getApplicationContext(), "Account does not exist", Toast.LENGTH_LONG).show();
+                    }else{
                         // Error occurred in registration. Get the error
                         // message
                         String errorMsg = jObj.getString("error_msg");
@@ -118,7 +130,7 @@ public class VerifyRegistration extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Verification Error: " + error.getMessage());
+                Log.e(TAG, "Request Error: " + error.getMessage());
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_LONG).show();
                 hideDialog();
@@ -130,8 +142,8 @@ public class VerifyRegistration extends AppCompatActivity {
                 // Posting params to register url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("email", email);
-                params.put("signup_code", signupCode);
-                params.put("confirm_signup",confirmSignup);
+                params.put("forget",forget);
+
 
                 return params;
             }
@@ -150,8 +162,4 @@ public class VerifyRegistration extends AppCompatActivity {
         if (pDialog.isShowing())
             pDialog.dismiss();
     }
-
-
-
-
 }

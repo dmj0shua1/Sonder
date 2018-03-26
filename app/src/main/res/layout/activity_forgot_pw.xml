@@ -4,32 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.loopbookinc.sonder.VerifyRegistration">
+    tools:context="com.loopbookinc.sonder.forgot_pw">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <EditText
-            android:id="@+id/edtVCode"
+            android:id="@+id/edtResetPwEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="93dp"
+            android:layout_marginTop="107dp"
             android:ems="10"
-            android:hint="@string/vcode"
-            android:inputType="textPersonName" />
+            android:hint="@string/hint_email"
+            android:inputType="textEmailAddress|textPersonName" />
 
         <Button
-            android:id="@+id/btnVerify"
+            android:id="@+id/btnResetCode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/edtVCode"
+            android:layout_below="@+id/edtResetPwEmail"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="64dp"
-            android:text="@string/verify" />
+            android:layout_marginTop="40dp"
+            android:text="@string/request" />
+
+        <Button
+            android:id="@+id/btnAlreadyReset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="46dp"
+            android:background="@android:color/transparent"
+            android:text="@string/already_reset" />
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
