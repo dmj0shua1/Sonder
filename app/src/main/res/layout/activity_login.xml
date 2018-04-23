@@ -41,10 +41,9 @@
             android:id="@+id/imageView6"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="40dp"
-            android:layout_marginTop="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="17dp"
             android:contentDescription="@string/logo"
             app:srcCompat="@drawable/sonder_logo" />
     </RelativeLayout>
