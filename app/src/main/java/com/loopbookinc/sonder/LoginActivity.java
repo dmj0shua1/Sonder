@@ -39,6 +39,7 @@ public class LoginActivity extends Activity {
     private ProgressDialog pDialog;
     private SessionManager session;
     private SQLiteHandler db;
+    private Button btnMaps;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class LoginActivity extends Activity {
         btnLogin = findViewById(R.id.btnLogin);
         btnLinkToRegister = findViewById(R.id.btn_register);
         btnForgotPassword = findViewById(R.id.btn_forgot_password);
+        btnMaps = findViewById(R.id.btnMap);
 
         // Progress dialog
         pDialog = new ProgressDialog(this);
@@ -68,6 +70,18 @@ public class LoginActivity extends Activity {
             startActivity(intent);
             finish();
         }
+
+        //Maps
+        btnMaps.setOnClickListener(new View.OnClickListener(){
+
+            public void onClick(View view) {
+                // User is already logged in. Take him to main activity
+                Intent intent = new Intent(LoginActivity.this, mapstest.class);
+                startActivity(intent);
+
+            }
+
+        });
 
         // Login button Click Event
         btnLogin.setOnClickListener(new View.OnClickListener() {

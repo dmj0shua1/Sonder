@@ -144,6 +144,15 @@
             android:textSize="18sp"
             tools:textAllCaps="false" />
 
+        <Button
+            android:id="@+id/btnMap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btn_register"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="53dp"
+            android:text="maptest" />
+
     </RelativeLayout>
 
 </LinearLayout>
