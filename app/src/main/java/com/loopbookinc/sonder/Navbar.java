@@ -3,6 +3,7 @@ package com.loopbookinc.sonder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -17,21 +18,27 @@ public class Navbar extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            Fragment selectedFragment = null;
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
-                    return true;
+                   // mTextMessage.setText(R.string.title_home);
+                    selectedFragment = new HomeFragment();
+                    break;
                 case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
-                    return true;
+                  //  mTextMessage.setText(R.string.title_dashboard);
+                    selectedFragment = new DashboardFragment();
+                    break;
                 case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
-                    return true;
+                   // mTextMessage.setText(R.string.title_notifications);
+                    selectedFragment = new NotificationsFragment();
+                    break;
                 case R.id.navigation_person:
-                    mTextMessage.setText(R.string.title_people);
-                    return true;
+                   // mTextMessage.setText(R.string.title_people);
+                    selectedFragment = new PeopleFragment();
+                    break;
             }
-            return false;
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,selectedFragment).commit();
+            return true;
         }
     };
 
