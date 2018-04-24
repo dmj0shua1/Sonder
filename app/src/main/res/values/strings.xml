@@ -49,4 +49,10 @@
     <string name="hybrid_map">Hybrid</string>
     <string name="satellite_map">Satellite</string>
     <string name="terrain_map">Terrain</string>
+    <string name="title_activity_tab_view">TabView</string>
+    <string name="title_activity_navbar">Navbar</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_people">People</string>
 </resources>

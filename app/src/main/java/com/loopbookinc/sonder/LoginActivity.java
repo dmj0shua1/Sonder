@@ -76,7 +76,7 @@ public class LoginActivity extends Activity {
 
             public void onClick(View view) {
                 // User is already logged in. Take him to main activity
-                Intent intent = new Intent(LoginActivity.this, mapstest.class);
+                Intent intent = new Intent(LoginActivity.this, Navbar.class);
                 startActivity(intent);
 
             }
