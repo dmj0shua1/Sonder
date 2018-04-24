@@ -21,7 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class mapstest extends AppCompatActivity implements GoogleMap.OnMyLocationButtonClickListener,
+public class mapstest extends FragmentActivity implements GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener,
         OnMapReadyCallback {
 
