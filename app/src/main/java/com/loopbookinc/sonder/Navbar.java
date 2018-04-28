@@ -84,6 +84,11 @@ public class Navbar extends AppCompatActivity {
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        //load first fragment
+        Fragment selectedFragment = null;
+        selectedFragment = new HomeFragment();
+        replaceFragment(selectedFragment);
     }
 
 }

@@ -1,39 +1,35 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
-
-
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.loopbookinc.sonder.mapstest"
-    />
+    >
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.loopbookinc.sonder.mapstest" />
 
     <RelativeLayout
         android:id="@+id/relLayout1"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
-        android:elevation="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/white_border"
+        android:elevation="10dp"
+        android:visibility="visible">
 
-        >
-        
         <ImageView
             android:id="@+id/ic_magnify"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/ic_magnify"/>
+            android:src="@drawable/ic_magnify" />
 
         <EditText
             android:id="@+id/input_search"
@@ -43,8 +39,10 @@
             android:layout_toRightOf="@id/ic_magnify"
             android:background="@null"
             android:hint="Enter Address, City or Zip Code"
+            android:imeOptions="actionSearch"
             android:paddingLeft="10dp"
             android:textColor="#000"
             android:textSize="15dp" />
     </RelativeLayout>
-</RelativeLayout>
+
+</FrameLayout>
