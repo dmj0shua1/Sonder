@@ -3,6 +3,8 @@ package com.loopbookinc.sonder;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationProvider;
 import android.os.Bundle;
@@ -34,7 +36,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -65,6 +70,8 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMyLocationButt
     private Button btnLocation;
     private EditText input_search;
 
+
+
     //widgets
     //private EditText mSearchText;
     private SupportMapFragment mapfragment;
@@ -88,6 +95,8 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMyLocationButt
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 mMap = googleMap;
+
+
 
                 // Add a marker in Sydney and move the camera
         /*LatLng sydney = new LatLng(-34, 151);
@@ -145,7 +154,18 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMyLocationButt
             if (resultCode == RESULT_OK) {
                 Place place = PlaceAutocomplete.getPlace(getContext(), data);
                 Log.i(TAG, "Place: " + place.getName());
-                mMap.addMarker(new MarkerOptions().position(place.getLatLng()));
+
+                //create custom marker
+                 BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.mipmap.ic_vehicle_blue_round);
+
+                MarkerOptions markerOptions = new MarkerOptions().position(place.getLatLng())
+                        .title("Current Location")
+                        .snippet("Thinking of finding some thing...")
+                        .icon(icon);
+
+                //use custom marker on a marker
+                mMap.addMarker(markerOptions);
+
                 CameraUpdate location = CameraUpdateFactory.newLatLngZoom(place.getLatLng(), DEFAULT_ZOOM);
                 mMap.animateCamera(location);
 
