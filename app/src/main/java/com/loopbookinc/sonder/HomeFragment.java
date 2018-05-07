@@ -112,7 +112,7 @@ public class HomeFragment extends Fragment implements GoogleMap.OnMyLocationButt
         input_search.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                autocomplete();
+               autocomplete();
             }
 
         });
