@@ -61,9 +61,6 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".mapstest"
-            android:label="@string/title_activity_mapstest" />
-        <activity
             android:name=".Navbar"
             android:label="@string/title_activity_navbar"></activity>
     </application>

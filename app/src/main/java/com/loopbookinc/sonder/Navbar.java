@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -46,7 +45,7 @@ public class Navbar extends AppCompatActivity {
         }
     };
 
-    private void replaceFragment (Fragment fragment){
+    public Fragment replaceFragment (Fragment fragment){
         String backStateName =  fragment.getClass().getName();
         String fragmentTag = backStateName;
 
@@ -60,6 +59,7 @@ public class Navbar extends AppCompatActivity {
             ft.addToBackStack(backStateName);
             ft.commit();
         }
+        return fragment;
     }
 
     @Override
@@ -78,15 +78,15 @@ public class Navbar extends AppCompatActivity {
         setContentView(R.layout.activity_navbar);
 
         //disabled shiftmode
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
         BottomNavigationViewHelper.removeShiftMode(bottomNavigationView);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        mTextMessage = findViewById(R.id.message);
+        BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         //load first fragment
-        Fragment selectedFragment = null;
+        Fragment selectedFragment;
         selectedFragment = new HomeFragment();
         replaceFragment(selectedFragment);
     }
